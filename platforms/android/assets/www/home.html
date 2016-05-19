@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="aqte">
+    <head>
+        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+        <!--<meta name="format-detection" content="telephone=no">-->
+        <!--<meta name="msapplication-tap-highlight" content="no">-->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css" rel="stylesheet" media="">
+        <link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/aqte.css">
+        <!--<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">-->
+        <title>A que te Emborracho!!</title>
+    </head>
+    <body ng-controller="home" ng-init="initHome()">
+        <nav class="navbar navbar-default no-padding" role="navigation">
+            <!-- El logotipo y el icono que despliega el menú se agrupan
+                 para mostrarlos mejor en los dispositivos móviles -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse"
+                      data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Desplegar navegación</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">A que te emborracho!</a>
+            </div>
+           
+            <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+                 otro elemento que se pueda ocultar al minimizar la barra -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Instrucciones</a></li>
+                <li class="active"><a href="#">Acerca de la aplicación</a></li>
+                <li class="active"><a href="#">Calificar Aplicación</a></li>
+                <li class="active"><a href="#">Siguenos en las redes sociales</a></li>
+              </ul>
+            </div>
+          </nav>
+
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-default text-center">
+                        <a ng-click="addFriend()">
+                            <i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i><br>
+                            Agregar nuevo jugador<br><br>       
+                        </a>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ng-cloak" ng-cloak>
+                        <table class="table">
+                          <tr ng-repeat="list in players">
+                            <td valign="center" align="left" width="25%">
+                              <a ng-click="getPictureProfile(list.id)">
+                                <img src="img/profile.png" class="img-circle" width="100%" id="imagen{{ list.id }}" ng-if="list.picture == null">
+                                <img src="data:image/jpeg;base64,{{ list.picture }}" class="img-circle" width="100%" id="imagen{{ list.id }}"  ng-if="list.picture != null">
+                              </a>
+                            </td>
+                            <td valign="center" align="left"><h4 class="text-left">{{ list.nombre }}</h4></td>
+                            <td valign="center" align="center"  width="25%">
+                                <!--<a href=""><i class="fa fa-trash" aria-hidden="true"></i></a>-->
+                                <input data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="success" data-offstyle="default" type="checkbox" id="tareaTerminada3" rel="{{list.id}}" class="eventosHomePro" value="3" data-size="small">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" align="center">
+                                <a class="btn btn-aqte1 btn-block btn-lg" ng-click="startGame()">Nueva Partida</a>
+                            </td>
+                          </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="js/sweetalert.min.js"></script>
+        <script type="text/javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="js/controller.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap-toggle.min.js"></script>
+        <script src="js/angular-ngcordova.min.js"></script>
+        <script src="cordova.js"></script>
+        <script>
+          $(function() {
+            setTimeout(function(){
+                $('.eventosHomePro').bootstrapToggle();
+            },1000);
+            
+          })
+        </script>
+    </body>
+</html>

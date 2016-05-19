@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="io.cordova.hellocordova" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="SQLitePlugin">
+        <param name="android-package" value="io.sqlc.SQLitePlugin" />
+    </feature>
+    <feature name="SpinnerDialog">
+        <param name="android-package" value="hu.dpal.phonegap.plugins.SpinnerDialog" />
+    </feature>
+    <icon density="ldpi" src="www/res/android/ldpi.png" />
+    <icon density="mdpi" src="www/res/android/mdpi.png" />
+    <icon density="hdpi" src="www/res/android/hdpi.png" />
+    <icon density="xhdpi" src="www/res/android/xhdpi.png" />
+    <name>A que te emborracho</name>
+    <description>
+        Una simple reunión de amigos puede ser todo un juego.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Orugal
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+</widget>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="aqte">
+    <head>
+        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+        <!--<meta name="format-detection" content="telephone=no">-->
+        <!--<meta name="msapplication-tap-highlight" content="no">-->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+        <link rel="stylesheet" type="text/css" href="css/aqte.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <!--<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">-->
+        <title>A que te Emborracho!!</title>
+    </head>
+    <body class="into" ng-controller="intro" ng-init="initIntro()">
+        <div class="container-fluid no-padding">
+            <center>
+               <img src="img/intro2.png" width="100%" /><br><br>
+            </center>   
+        </div>
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <a  class="btn btn-aqte1 btn-block btn-lg" ng-click="ingresarJuego()">A jugar!!</a><br>
+                        <a  class="btn btn-aqte2 btn-block btn-lg">¿Cómo Jugar?</a><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="js/sweetalert.min.js"></script>
+        <script type="text/javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="js/controller.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script src="js/angular-ngcordova.min.js"></script>
+        <script src="cordova.js"></script>
+    </body>
+</html>

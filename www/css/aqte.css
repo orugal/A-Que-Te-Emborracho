@@ -1,0 +1,79 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+
+
+.into{background:#D0304C;}
+
+.btn-aqte1{color:#fff;background-color:#11A7A3;border-color:#00444A}
+.btn-aqte2{color:#000;background-color:#FEEE37;border-color:#D8C801}
+.no-padding{padding: 0 !important}
+.relativeLayout{position: relative}
+.absoluteLayout{position: absolute;}
+.positionRB{bottom:0;right: 0}
+#menuPista{position: fixed;top:0;left:0;z-index:200;width: 100%;background: #f6f6f6;box-shadow: 0px 0px 3px #999;padding: 2%}
+
+.actualTurno{border:2px solid #D0304C;box-shadow: 0px 0px 5px #D0304C}
+
+.blink {
+  animation: blink-animation 0.2s steps(5, start) infinite;
+  -webkit-animation: blink-animation 0.2s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+.navbar-header{background:#1BA29D !important;}
+
+.navbar-default .navbar-toggle{border:none}
+.navbar-default .navbar-toggle:hover{background: transparent;}
+
+.navbar-default .navbar-toggle .icon-bar{background: #fff}
+
+.navbar-default .navbar-brand{color:#fff;}
+.navbar-default .navbar-brand:hover{color:#fff;}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+color: #000;  /*Sets the text hover color on navbar*/
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a {
+color: #fff;  /*Sets the text hover color on navbar*/
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >   
+ a:hover, .navbar-default .navbar-nav > .active > a:focus {
+color: #333; /*BACKGROUND color for active*/
+background-color: #fff;
+}
+
+  .navbar-default {
+   /* background-color: #1BA29D;*/
+    border-color: #fff;
+}
+
+  .dropdown-menu > li > a:hover,
+   .dropdown-menu > li > a:focus {
+    color: #262626;
+   text-decoration: none;
+  background-color: #66CCFF;  /*change color of links in drop down here*/
+   }
+
+ .nav > li > a:hover,
+ .nav > li > a:focus {
+    text-decoration: none;
+    background-color: silver; /*Change rollover cell color here*/
+  }
+
+
+  .navbar-default .navbar-nav > li > a {
+   color: white; /*Change active text color here*/
+    }
