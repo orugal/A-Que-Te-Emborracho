@@ -33,7 +33,7 @@
 
         <div class="container-fluid" id="contPista">
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-default text-justify  no-padding boxTrack" ng-repeat="bloques in pista" id="boxTrack{{bloques.id}}" style="background:url('{{bloques.imagen}}') no-repeat center bottom, {{bloques.color}} url('{{bloques.fondo}}') repeat center center;height:200px;color: #fff;font-size: 2.5em;">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-default text-justify  no-padding boxTrack" ng-repeat="bloques in pista" id="boxTrack{{bloques.id}}" data-caja="{{bloques}}" style="background:url('{{bloques.imagen}}') no-repeat center bottom, {{bloques.color}} url('{{bloques.fondo}}') repeat center center;height:200px;color: #fff;font-size: 2.5em;">
                     <div class="container text-left placePlayer" style="margin-top:4%">
                         <!-- Div donde siempre se deben posicionar los jugadores-->
                     </div>

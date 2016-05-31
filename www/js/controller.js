@@ -253,12 +253,15 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 	var elementoInicial = null;
 	//1: Es para iniciar
 	//2: Es para tomar
-	//4: Para el Shot, para la punteria y la copa de la amistad
+	//3: Para el Shot
+	//4: Para la punteria
 	//5: Penitencias
 	//6: Retroceder casillas
 	//7: Dedito bailarin
 	//8: De reversa
-	//9: Fin del juego
+	//9: la copa de la amistad
+	//10: El Dado dice
+	//11: Fin del Juego
 	$scope.activePlayers 	= [];
 	$scope.activePlayersBig = [];
 	var posJugador	 	= 0;
@@ -285,7 +288,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:3,
 			nombre:'Un shot para tu amigo de la Izquierda',
-			tipo:2,
+			tipo:3,
 			imagen:'img/pista/imagen3.svg',
 			fondo:'img/pista/fondo3.svg',
 			color:'#F5AD00',
@@ -294,7 +297,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:4,
 			nombre:'Prueba tu punteria',
-			tipo:2,
+			tipo:4,
 			imagen:'img/pista/imagen4.svg',//punteria
 			fondo:'img/pista/fondo4.svg',
 			color:'#009ACE',
@@ -303,7 +306,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:5,
 			nombre:'La copa de la amistad',
-			tipo:4,
+			tipo:9,
 			imagen:'img/pista/imagen5.svg',
 			fondo:'img/pista/fondo5.svg',
 			color:'#E44537',
@@ -321,7 +324,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:7,
 			nombre:'El dado dice...',
-			tipo:5,
+			tipo:10,
 			imagen:'img/pista/imagen7.svg',
 			fondo:'img/pista/fondo7.svg',
 			color:'#10509E',
@@ -357,7 +360,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:11,
 			nombre:'Un shot para tu amigo de la Derecha',
-			tipo:2,
+			tipo:3,
 			imagen:'img/pista/imagen9.svg',
 			fondo:'img/pista/fondo3.svg',
 			color:'#F5AD00',
@@ -384,7 +387,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:14,
 			nombre:'La copa de la amistad',
-			tipo:4,
+			tipo:9,
 			imagen:'img/pista/imagen5.svg',//copa de la amistad
 			fondo:'img/pista/fondo5.svg',
 			color:'#E44537',
@@ -402,7 +405,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:16,
 			nombre:'La copa de la amistad',
-			tipo:4,
+			tipo:9,
 			imagen:'img/pista/imagen5.svg',//copa de la amistad
 			fondo:'img/pista/fondo5.svg',
 			color:'#E44537',
@@ -438,7 +441,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:20,
 			nombre:'El dado dice...',
-			tipo:5,
+			tipo:10,
 			imagen:'img/pista/imagen7.svg',//dado dice
 			fondo:'img/pista/fondo7.svg',
 			color:'#10509E',
@@ -456,7 +459,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:22,
 			nombre:'Prueba tu punteria',
-			tipo:2,
+			tipo:4,
 			imagen:'img/pista/imagen4.svg',//punteria
 			fondo:'img/pista/fondo4.svg',
 			color:'#009ACE',
@@ -510,7 +513,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		{
 			id:28,
 			nombre:'Felicitaciones, eres un gran bebedor',
-			tipo:9,
+			tipo:11,
 			imagen:'img/pista/imagen15.svg',//Final
 			fondo:'img/pista/fondo15.svg',
 			color:'#DA1743',
@@ -519,7 +522,9 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		
 	]
 
-
+	/*
+	* Inicia la partida, aquí es donde ingresa a la ventana partida y pone las fichas listas para jugar.
+	*/
 	$scope.initPartida = function()
 	{
 
@@ -620,6 +625,11 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 			$("#"+nextTurn).addClass("actualTurno");
 		}
 	}
+	/*
+	* Lógica del juego
+	* Aquí es donde empizan a jugar as personas que se hayan escogido, se lanzan los dados y se va avanzando en el tablero
+	* @author Farez Prieto
+	*/
 	$scope.playGame = function()
 	{
 		//esta es la función que va a analizar tooooooodo el juego
@@ -632,7 +642,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		$cordovaSpinnerDialog.show("Lanzando dados","Un momento por favor...", true);
 		setTimeout(function(){
 			$cordovaSpinnerDialog.hide();
-			var resultDado	=	$scope.dices(1,6);
+			var resultDado	=	$scope.dices(1,6);//lanzamiendo de dados
 			//notifico lo que digan los dados
 			swal({
 				title:resultDado+"!!",
@@ -646,7 +656,6 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 				$scope.getDataPlayerTurno(idPlayer);
 				setTimeout(function()
 				{
-					//alert("la posicion Actual es: "+posJugador);
 					//calculo la siguiente posición
 					var nextPos = (parseInt(posJugador) + parseInt(resultDado));
 					//pongo la ficha en el lugar de la nueva posicion, esta posición siempre será el lugar donde está + la de la nueva posicion
@@ -655,11 +664,12 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 					$scope.ancla("#boxTrack"+nextPos);
 					//ahora debo actualizar el turno del usuario en la mini ficha para más adelante poder saber de donde viene
 					$scope.updatePlayerPos(nextPos,idPlayer);
-					//paso al siguiente turno
-					setTimeout(function(){
-						$scope.nextTurn();	
-					},1000)
-					
+
+					//debo saber que tipo de casilla es donde ha caido el personaje, de esta forma puedo poner al jugador a que haga algo
+					//para esto capturo la metadata
+					var datosBloque   =  $("#boxTrack"+nextPos).data("caja");
+					//toma de decisión, esta función hace la lógica
+					$scope.tomaDecision(datosBloque);
 
 				},1000);
 
@@ -667,6 +677,148 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 			});
 		},2000);
 	}
+
+	/*********************Funciones que realizan la lógica del juego*************************/
+	$scope.tomaDecision 	=	function(obj)
+	{
+		//ahora debo validar el tipo de caja en la cual ha caido, par ello debo validar el campo tipo basandome en esta documentación
+		//1: Es para iniciar
+		//2: Es para tomar
+		//3: Para el Shot
+		//4: Para la punteria
+		//5: Penitencias
+		//6: Retroceder casillas
+		//7: Dedito bailarin
+		//8: De reversa
+		//9: la copa de la amistad
+		//10: El Dado dice
+		//11: Fin del Juego
+		switch(obj.tipo)
+		{
+			case 1://inicio
+
+			break;
+			case 2://Tomar
+				//para poner al jugador a tomar analizo la cantidad de tragos que deba tomarse
+				var lblTrago = (obj.cantidad > 1)?"tragos":"trago";
+				swal({
+					title:obj.nombre,
+					text:"Debes tomar "+obj.cantidad+" "+lblTrago,
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 3://Shot
+				swal({
+					title:obj.nombre,
+					text:"Debes darle un trago a tu compañero de al lado",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 4://Puntería
+				swal({
+					title:obj.nombre,
+					text:"Vamos a probar tu puntería",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 5://Penitencias
+				swal({
+					title:obj.nombre,
+					text:"Debes hacer una penitencia",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 6://Retroceder casillas
+				//para poner al jugador a tomar analizo la cantidad de tragos que deba tomarse
+				var lblCasilla = (obj.cantidad > 1)?"casillas":"casilla";
+				swal({
+					title:obj.nombre,
+					text:"Retrocederas "+obj.cantidad+" "+lblCasilla,
+					type:"info",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 7://Dedito Bailarin
+				swal({
+					title:obj.nombre,
+					text:"",
+					type:"info",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 8://De reversa
+				swal({
+					title:obj.nombre,
+					text:"Vamos a jugar en reversa.",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 9://Copa de la amistad
+				swal({
+					title:obj.nombre,
+					text:"Debes beberte el contenido de la copa de la amistad.",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 10://El dado dice
+				swal({
+					title:obj.nombre,
+					text:"El dado dice que debes tomarte X Tragos",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+			case 11://Fin del juego
+				swal({
+					title:obj.nombre,
+					text:"Finalizaste el juego.",
+					html:true,   
+					confirmButtonText: "Terminar mi turno",   
+					confirmButtonColor: "#DD6B55",
+				},function(){
+					$scope.nextTurn();
+				});
+			break;
+
+		}
+	}
+	/*****************Fin de las funciones que realizan la lógica del juego******************/
+
 	$scope.ancla = function(anchor)
 	{
 		var altoCaja = $(anchor).height();
