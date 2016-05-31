@@ -7,16 +7,13 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
-        },
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-sqlite-storage": {
+        "cordova-plugin-spinner-dialog": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "cordova-plugin-spinner-dialog": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
