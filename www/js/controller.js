@@ -1,6 +1,8 @@
 /*Controlador editaInfo*/
-var html5 = {};
-var dbsize = 1024 * 1024; //1MB
+var html5   = {};
+var dbsize  = 1024 * 1024; //1MB
+var sentido = true;
+var posJug 	 = "";
 html5.db = null;
 html5.db = openDatabase("aqte", "1.0", "A que te emborracho", dbsize);
 
@@ -70,6 +72,9 @@ aqte.controller('home', function($scope,$http,$q,$cordovaCamera,$cordovaSQLite,$
 				});
 			}
 		},1000);
+		//inicializo variables
+		sentido = true;
+		posJug 	 = "";
 		
 	}
 	$scope.addFriend = function()
@@ -266,6 +271,20 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 	$scope.activePlayersBig = [];
 	var posJugador	 	= 0;
 	var posJugador2	 	= 0;
+
+	$scope.penitenciasList = [
+		{texto:'Lamerse algo que otra persona se echa en su ombligo, por ejemplo un copa de licor, salsa, miel, etc.'},
+		{texto:'Apretar un cubo de hielo en una mano hasta que se derrita.'},
+		{texto:'Ponerse encima de su ropa por lo menos 10 prendas de vestir extra que le debe pedir al resto de los jugadores.'},
+		{texto:'Colocarse en diferentes partes del cuerpo 20 pinzas de ropa: en las orejas, la nariz, la piel, los dedos, etc.'},
+		{texto:'Decir el alfabeto al revés, si se equivoca vuelve a empezar'},
+		{texto:'Baile sensual: Mostrar a los demás sus mejores movimientos de danza árabe o de streptease, por 1 minuto'},
+		{texto:'Cantar una canción infantil mientras se come tres galletas secas, sin agua.'},
+		{texto:'Diga 4 partes del cuerpo que tengan  sólo 3 letras.'},
+		{texto:'Escriba una trova  o poema, donde mencione y les agradezca a  los organizadores de la fiesta, por haberlo invitado.'},
+	];
+
+
 	$scope.pista = [
 		{
 			id:1,
@@ -595,35 +614,74 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 		$(".turnMark").first().addClass("actualTurno");
 		elementoInicial = $(".turnMark").attr("id");
 	}
-	$scope.nextTurn = function()
+	$scope.nextTurn = function(dir)
 	{
+
+		//para cambiar el sentido
+		if(dir != undefined)
+		{
+			switch(sentido)
+			{
+				case true:
+					sentido = false;
+				break;	
+				case false:
+					sentido = true;
+				break;
+			}
+		}
+
 		var cantPlayers    = ($(".turnMark").length - 1);
 		var actualturn     = $(".turnMark.actualTurno");
 		var actualturnId   = $(".turnMark.actualTurno").attr("id");
 		var actualturnRel  = $(".turnMark.actualTurno").attr("rel");
 
-		//alert(actualturnRel)
-		$scope.getDataPlayerTurno2(actualturnRel);
-		//alert(posJugador2)
-		setTimeout(function(){
-			$scope.ancla("#boxTrack"+posJugador2);
-		},1000)
 
-
-		//debo mover la pantalla hasta donde la persona que debe tomar el turno.
-		//alert(actualturnId+" - "+actualturnRel);
-		if(actualturnId >= cantPlayers)
+		//esta lógica es para controlar el sentido del juego, sólo la altera la ficha "En Reversa"
+		if(sentido == true)//
 		{
-			$(".turnMark").removeClass("actualTurno");
-			$("#0").addClass("actualTurno");
+			if(actualturnId >= cantPlayers)
+			{
+				$(".turnMark").removeClass("actualTurno");
+				$("#0").addClass("actualTurno");
+				posJug = 0;
+			}
+			else
+			{
+				var nextTurn = (parseInt(actualturnId) + parseInt(1));
+				posJug = nextTurn;
+				//alert(nextTurn)
+				$(".turnMark").removeClass("actualTurno");
+				$("#"+nextTurn).addClass("actualTurno");
+			}
+
 		}
 		else
 		{
-			var nextTurn = (parseInt(actualturnId) + parseInt(1));
-			//alert(nextTurn)
-			$(".turnMark").removeClass("actualTurno");
-			$("#"+nextTurn).addClass("actualTurno");
+			if(actualturnId <= 0)
+			{
+				$(".turnMark").removeClass("actualTurno");
+				$("#"+cantPlayers).addClass("actualTurno");
+				posJug = cantPlayers;
+			}
+			else
+			{
+				var nextTurn = (parseInt(actualturnId) - parseInt(1));
+				//alert(nextTurn)
+				$(".turnMark").removeClass("actualTurno");
+				$("#"+nextTurn).addClass("actualTurno");
+				posJug = nextTurn;
+			}
 		}
+
+		setTimeout(function(){
+			var altoCaja = $("#boxTrack"+posJug).height();
+	        $('html, body').stop().animate({
+	            scrollTop: (parseInt(jQuery($("#boxTrack"+posJug)).offset().top) - parseInt(altoCaja))
+	        }, 1000,function(){});
+		},500);
+		
+		
 	}
 	/*
 	* Lógica del juego
@@ -656,8 +714,16 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 				$scope.getDataPlayerTurno(idPlayer);
 				setTimeout(function()
 				{
+					//antes de cambiar el turno debo de detectar cuantas casillas hay en total
+					var cantCasillas = $(".boxTrack").length;
+
 					//calculo la siguiente posición
 					var nextPos = (parseInt(posJugador) + parseInt(resultDado));
+					//si la nueva posición supera la cantidad total de casillas quiere decir que el jugador ha ganado la partida.
+					if(nextPos >= cantCasillas)
+					{
+						nextPos = cantCasillas;
+					}
 					//pongo la ficha en el lugar de la nueva posicion, esta posición siempre será el lugar donde está + la de la nueva posicion
 					fichaJugadorTurno.appendTo("#boxTrack"+nextPos+" .placePlayer");
 					//muevo el mapa hacia la nueva posición
@@ -676,6 +742,50 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 
 			});
 		},2000);
+	}
+	$scope.retrocedeCasillas = function(cant)
+	{
+		//esta es la función que va a analizar tooooooodo el juego
+		//debo saber cual es el jugador que esta activo en el turno
+		var actualturn     		= $(".turnMark.actualTurno");
+		var idElPlayer	  		= actualturn.attr("id");	
+		var idPlayer	   		= actualturn.attr("rel");
+		var fichaJugadorTurno	=	$("#gamer"+idPlayer);
+
+		setTimeout(function(){
+			var resultDado	=	cant;//lanzamiendo de dados
+			
+			//debo hacer que el jugador en turno avance, pero primero debo saber en que posición se encuentra
+			$scope.getDataPlayerTurno(idPlayer);
+			setTimeout(function()
+			{
+				//antes de cambiar el turno debo de detectar cuantas casillas hay en total
+				var cantCasillas = $(".boxTrack").length;
+
+				//calculo la siguiente posición
+				var nextPos = (parseInt(posJugador) - parseInt(resultDado));
+				//si la nueva posición supera la cantidad total de casillas quiere decir que el jugador ha ganado la partida.
+				if(nextPos >= cantCasillas)
+				{
+					nextPos = cantCasillas;
+				}
+				//pongo la ficha en el lugar de la nueva posicion, esta posición siempre será el lugar donde está + la de la nueva posicion
+				fichaJugadorTurno.appendTo("#boxTrack"+nextPos+" .placePlayer");
+				//muevo el mapa hacia la nueva posición
+				$scope.ancla("#boxTrack"+nextPos);
+				//ahora debo actualizar el turno del usuario en la mini ficha para más adelante poder saber de donde viene
+				$scope.updatePlayerPos(nextPos,idPlayer);
+
+				//debo saber que tipo de casilla es donde ha caido el personaje, de esta forma puedo poner al jugador a que haga algo
+				//para esto capturo la metadata
+				var datosBloque   =  $("#boxTrack"+nextPos).data("caja");
+				//toma de decisión, esta función hace la lógica
+				$scope.tomaDecision(datosBloque);
+
+			},1000);
+
+
+		},500);
 	}
 
 	/*********************Funciones que realizan la lógica del juego*************************/
@@ -734,9 +844,12 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 				});
 			break;
 			case 5://Penitencias
+				//aquí debo sacar una penitencia del listado
+				var penSel 	= $scope.dices(0,$scope.penitenciasList.length);
+				var penText = $scope.penitenciasList[penSel].texto;
 				swal({
 					title:obj.nombre,
-					text:"Debes hacer una penitencia",
+					text:penText,
 					html:true,   
 					confirmButtonText: "Terminar mi turno",   
 					confirmButtonColor: "#DD6B55",
@@ -755,13 +868,13 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 					confirmButtonText: "Terminar mi turno",   
 					confirmButtonColor: "#DD6B55",
 				},function(){
-					$scope.nextTurn();
+					$scope.retrocedeCasillas(obj.cantidad);
 				});
 			break;
 			case 7://Dedito Bailarin
 				swal({
 					title:obj.nombre,
-					text:"",
+					text:"Tus compañeros te dirán el nombre de una canción, pon tu dedo en el suelo y comienza a cantar, tararear o silvar el coro completo de la canción y sin despegar el dedo del suelo, comienza a dar vueltas sobre tu propio eje.",
 					type:"info",
 					html:true,   
 					confirmButtonText: "Terminar mi turno",   
@@ -773,18 +886,18 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 			case 8://De reversa
 				swal({
 					title:obj.nombre,
-					text:"Vamos a jugar en reversa.",
+					text:"Acabas de perder tu turno, toma un shot y ahora el juego cambia de sentido.",
 					html:true,   
 					confirmButtonText: "Terminar mi turno",   
 					confirmButtonColor: "#DD6B55",
 				},function(){
-					$scope.nextTurn();
+					$scope.nextTurn(1);
 				});
 			break;
 			case 9://Copa de la amistad
 				swal({
 					title:obj.nombre,
-					text:"Debes beberte el contenido de la copa de la amistad.",
+					text:"pon un shot dentro de la copa y vuelvela a poner en su lugar.",
 					html:true,   
 					confirmButtonText: "Terminar mi turno",   
 					confirmButtonColor: "#DD6B55",
@@ -795,7 +908,7 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
 			case 10://El dado dice
 				swal({
 					title:obj.nombre,
-					text:"El dado dice que debes tomarte X Tragos",
+					text:"Muy fácil, toma tantos tragos como indique el dado, si sale el número 6 pon un shot en LA COPA DE LA AMISTAD y luego date otros 6 a ti.",
 					html:true,   
 					confirmButtonText: "Terminar mi turno",   
 					confirmButtonColor: "#DD6B55",
@@ -828,9 +941,17 @@ aqte.controller('partida', function($scope,$http,$q,$cordovaCamera,$cordovaSQLit
         	$(anchor).addClass("blink");
         	setTimeout(function(){
         		$(anchor).removeClass("blink");
-        	},2000);
+        	},1000);
         });
         return false;
+	}
+	$scope.anclaturno = function()
+	{
+		alert(posJug);
+		var altoCaja = $("#boxTrack"+posJug).height();
+        $('html, body').stop().animate({
+            scrollTop: (parseInt(jQuery($("#boxTrack"+posJug)).offset().top) - parseInt(altoCaja))
+        }, 1000,function(){});
 	}
 	$scope.dices = function(inferior,superior)
 	{
